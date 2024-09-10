@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction Result</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .result-container {
+            margin-top: 20px;
+        }
+        .result-container img, .result-container video {
+            max-width: 100%;
+            height: auto;
+        }
+        .result-container video {
+            max-height: 500px; /* Adjust as needed */
+        }
+        .btn-custom {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container result-container">
+        <h1 class="text-center">Prediction Result</h1>
+        <div class="row border">
+            <div class="col-md-12 text-center">
+                <p class="lead">{{ result }}</p>
+
+                {% if file_url.endswith(('.jpg', '.jpeg', '.png')) %}
+                    <img src="{{ file_url }}" alt="Uploaded Image" class="img-fluid">
+                {% elif file_url.endswith(('.mp4', '.avi', '.mov')) %}
+                    <video controls class="img-fluid">
+                        <source src="{{ file_url }}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                {% endif %}
+            </div>
+        </div>
+        <div class="text-center">
+            <a href="{{ url_for('animation_view') }}" class="btn btn-primary btn-custom">Upload another file</a>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies (optional) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.11/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

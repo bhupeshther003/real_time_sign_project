@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>We Are Equal</title>
+    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Montserrat:300,400,500,700" rel="stylesheet">
+    <link href="/static/assets/vendor/aos/aos.css" rel="stylesheet">
+    <link href="/static/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="/static/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="/static/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+    <link href="/static/assets/css/services.css" rel="stylesheet">
+    <!-- Template Main CSS File -->
+  <link href="/static/assets/css/style.css" rel="stylesheet">
+
+    <style>
+        body {
+            overflow-y: visible;
+        }
+        .display-area {
+            display: flex;
+            justify-content: space-between;
+        }
+        #predicted-video, #predicted-image {
+            max-width: 100%;
+            max-height: 300px;
+        }
+        .control-buttons {
+            margin-top: 10px;
+        }
+        .input-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .input-container input[type="text"] {
+            flex-grow: 1;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            margin-right: 10px;
+        }
+        .input-container button {
+            background-color: #007bff;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            color: #fff;
+            cursor: pointer;
+        }
+        .input-container button img {
+            width: 20px;
+            height: 20px;
+        }
+        .keywords ul {
+            list-style-type: none;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .keywords li {
+            margin: 5px 10px;
+            font-size: 18px;
+            color: #666;
+        }
+        .animation-container {
+            margin-top: 30px;
+            text-align: center;
+        }
+        .animation-container video {
+            width: 100%;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+        }
+        .animation-container button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            background-color: #28a745;
+            color: white;
+            cursor: pointer;
+        }
+        .animation-container button:hover {
+            background-color: #218838;
+        }
+        .loading-spinner {
+            display: none;
+            margin-top: 20px;
+        }
+        .loading-spinner img {
+            width: 30px;
+            height: 30px;
+        }
+        #text-to-audio {
+            margin-top: 30px;
+        }
+        #text-to-audio .btn {
+            margin-top: 10px;
+        }
+
+      
+        .button-container {
+            text-align: center;
+        }
+        .button-container button {
+            background-color: #1abc9c;
+            color: white;
+            padding: 15px 30px;
+            font-size: 18px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .button-container button:hover {
+            background-color: #16a085;
+        }
+       
+        .video-container {
+    position: relative;
+    width: 100%;
+    height: 100vh; /* Full viewport height */
+    overflow: hidden; /* Hide overflow to ensure no scrollbars */
+    /* filter: brightness(70%); Adjust brightness level as needed */
+}
+
+
+
+
+.video-container video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Cover the entire container */
+}
+/* .video-container { */
+    /* position: relative; */
+    /* width: 100%; */
+    /* max-width: 800px; Adjust based on your desired width */
+/* } */
+
+
+
+
+video {
+    width: 100%;
+    height: auto;
+    display: block; /* Ensures no extra space around the video */
+}
+
+.text-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff; /* White text for contrast */
+    font-size: 60px; /* Increase font size */
+    font-weight: bold;
+    text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.8); /* Better visibility on video */
+    text-align: center;
+    line-height: 1.4; /* Spacing between lines for readability */
+    /* background: rgba(0, 0, 0, 0.5); Semi-transparent background for readability */
+    padding: 20px; /* Space around the text */
+    border-radius: 10px; /* Rounded corners for a softer look */
+    width: 90%; /* Span the width of the video container */
+    box-sizing: border-box; /* Include padding and border in element's total width and height */
+    z-index: 1; /* Ensure the text sits above the video */
+}
+
+
+.btn-overlay {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #007bff; /* Blue background */
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.btn-overlay:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+.btn-overlay {
+        display: inline-block; 
+        margin-top: 20px; 
+        padding: 15px 30px; /* Increased padding for a larger button */
+        font-size: 20px; /* Increased font size */
+        color: #fff; 
+        background-color: #007bff52; /* Initial background color */
+        text-decoration: none; 
+        border-radius: 30px; /* Larger border radius for a rounder button */
+        transition: background-color 0.3s; /* Smooth transition for color change */
+    }
+
+    .btn-overlay:hover {
+        background-color: #0056b3; /* Brighter color on hover */
+        color: white;
+    }
+#cameraButton {
+        background-color: #007bff; /* Initial background color */
+        color: white; /* White text color */
+        padding: 10px 20px; /* Adjusted padding for more space */
+        border: none; /* No border */
+        border-radius: 5px; /* Rounded corners */   
+        cursor: pointer; /* Change cursor to pointer */
+        transition: background-color 0.3s; /* Smooth transition for color change */
+    }
+
+    .text-overlay {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+    }
+
+    .text-overlay p {
+        color: #fff;
+        font-weight: bold;
+        text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.8);
+        text-align: center;
+        line-height: 1.4;
+        margin: 0;
+    }
+
+    .btn-overlay {
+        display: inline-block;
+        padding: 10px 20px;
+        margin-top: 15px;
+        background-color: #007bff; /* Change this to your preferred color */
+        color: #fff;
+        text-align: center;
+        text-decoration: none;
+        border-radius: 5px;
+        font-weight: bold;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-overlay:hover {
+        background-color: #0056b3; /* Darken the button color on hover */
+    }
+    </style>
+
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+            }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</head>
+<body>
+
+     <!-- Social Media -->
+  <html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Media Handler</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  </head>
+
+  <body>
+
+    <div class="social-media-handler">
+      <button class="btn" data-bs-toggle="tooltip" data-bs-placement="right" title="Facebook">
+        <i class="fab fa-facebook"></i>
+      </button>
+      <button class="btn" data-bs-toggle="tooltip" data-bs-placement="right" title="Twitter">
+        <i class="fab fa-twitter"></i>
+      </button>
+      <button class="btn" data-bs-toggle="tooltip" data-bs-placement="right" title="Instagram">
+        <i class="fab fa-instagram"></i>
+      </button>
+      <button class="btn" data-bs-toggle="tooltip" data-bs-placement="right" title="LinkedIn">
+        <i class="fab fa-linkedin"></i>
+      </button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/js/all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      // Initialize Bootstrap tooltips
+      document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(function (element) {
+        new bootstrap.Tooltip(element);
+      });
+    </script>
+  </body>
+
+  </html>
+
+    <header id="header" class="fixed-top d-flex align-items-center">
+        <div id="google_translate_element" style="margin-right: 0px;"></div>
+        <div class="container d-flex justify-content-between">
+            <div class="logo">
+                <h1><a href="/">We Are Equal</a></h1>
+            </div>
+            <nav id="navbar" class="navbar">
+                <ul>
+                    <li><a class="nav-link scrollto" href="/">Home</a></li>
+                    <li><a class="nav-link scrollto" href="/about">About</a></li>
+                    <li class="dropdown">
+                        <a class="nav-link scrollto active">Services</a>
+                        <ul class="dropdown-content">
+                            <li><a href="/communication">Communication</a></li>
+                            <li><a href="https://we-are-equals.onrender.com/">Learning</a></li>
+                            <li><a href="https://job-portal-2-p5bv.onrender.com/" target="_blank">Jobs</a></li>
+                        </ul>
+                    </li>
+                    <li><a class="nav-link scrollto" href="/contact">Contact</a></li>
+                </ul>     
+                <i class="bi bi-list mobile-nav-toggle"></i>
+            </nav>
+        </div>
+    </header>
+    <div class="video-container">
+        <video autoplay muted loop>
+            <source src="static/assets/img/Sample-video.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="overlay-background"></div>
+        <div class="text-overlay">
+            <p style="
+                color: #fff; 
+                /* font-size: 36px; Increase font size */
+                font-weight: bold; 
+                text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.8); 
+                text-align: center; 
+                line-height: 1.4; 
+                margin: 0;
+            ">
+                Bridging Voices with Signs<br>Connect, Learn, and Communicate!
+            </p>
+           <!-- Form to trigger camera -->
+    <form id="cameraForm" action="{{ url_for('run_camera') }}" method="post" style="display: none;">
+        <button type="submit">Start Camera</button>
+    </form>
+
+    <!-- Link to trigger the form submission and open camera -->
+    <a  class="btn-overlay" onclick="document.getElementById('cameraForm').submit(); return false;">Start Conversation</a>
+</div>
+</div>
+    
+        <hr class="my-4">
+        
+        <section class="upload-section">
+            <h2 class="text-center">Upload an Image or Video</h2>
+            <form action="/upload" method="post" enctype="multipart/form-data" class="form-inline justify-content-center">
+                <div class="form-group mb-2">
+                    <input type="file" name="file" class="form-control-file" required>
+                </div>
+                <button type="submit" class="btn btn-primary mb-2 ml-2">Upload</button>
+            </form>
+        </section>
+    </div>
+
+  <!-- ======= For Deaf People Section ======= -->
+  
+<!-- ======= Footer ======= -->
+<footer id="footer">
+    <div class="footer-top">
+      <div class="container">
+        <div class="row">
+
+          <div class="col-lg-3 col-md-6 footer-info">
+            <h3>We Are Equal</h3>
+            <p>We are equal is dedicated to bridging the gap between the deaf and hearing communities. Our platform
+              offers tools for real-time translation, video call support, and educational resources, ensuring seamless
+              and inclusive communication for everyone.</p>
+          </div>
+
+          <div class="col-lg-2 col-md-6 footer-links">
+            <h4>Useful Links</h4>
+            <ul>
+              <li><a class="nav-link scrollto" href="/">Home</a></li>
+              <li><a class="nav-link scrollto" href="/about">About</a></li>
+              <li><a class="nav-link scrollto" href="/contact">Contact</a></li>
+            </ul>
+          </div>
+
+          <div class="col-lg-2 col-md-6 footer-links">
+            <h4>Services</h4>
+            <ul>
+              <li><a href="/communication">Communication</a></li>
+              <li><a href="https://we-are-equals.onrender.com/">Learning</a></li>
+              <li><a href="https://job-portal-2-p5bv.onrender.com/" target="_blank">Jobs</a></li>
+            </ul>
+          </div>
+
+          <div class="col-lg-2 col-md-6 footer-contact">
+            <h4>Contact Us</h4>
+            <p>
+              V.N. Purav Marg, Chunabhatti, Sion East, Mumbai, Maharashtra 400022 <br>
+              <strong>Phone:</strong> +91 9370320475<br>
+              <strong>Email:</strong> werqcontact@gmail.com<br>
+            </p>
+          </div>
+
+          <div class="col-lg-2 col-md-6 footer-newsletter">
+            <h4>Social Media Handles</h4>
+            <div class="social-links">
+              <a href="https://x.com/login" class="twitter"><i class="bi bi-twitter"></i></a>
+              <a href="https://www.facebook.com/login/" class="facebook"><i class="bi bi-facebook"></i></a>
+              <a href="https://www.instagram.com/accounts/login/?hl=en" class="instagram"><i
+                  class="bi bi-instagram"></i></a>
+              <a href="https://linkedin.com/login/" class="linkedin"><i class="bi bi-linkedin"></i></a>
+              <h4  class="pt-4">Our Newsletter</h4>
+              <p>Subscribe to our newsletter</p>  
+              <form action="" method="" class=" footer-newsletter" >
+                <input type="email" name="email"><input type="submit" value="Subscribe">
+              </form>
+            </div>
+          </div>
+
+         
+    
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="copyright">
+        &copy; Copyright <strong>We Are Equal</strong>. All Rights Reserved
+      </div>
+      <div class="credits">
+      </div>
+    </div>
+  </footer>
+  <!-- End Footer -->
+
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+            }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        const video = document.getElementById('video');
+        const startButton = document.getElementById('startButton');
+        const stopButton = document.getElementById('stopButton');
+        const speakButton = document.getElementById('speakButton');
+        const predictionSpan = document.getElementById('prediction');
+        let stream;
+        let intervalId;
+
+        async function startVideo() {
+            stream = await navigator.mediaDevices.getUserMedia({ video: true });
+            video.srcObject = stream;
+            startButton.disabled = true;
+            stopButton.disabled = false;
+            intervalId = setInterval(predict, 1000); // Predict every second
+        }
+
+        async function stopVideo() {
+            if (stream) {
+                const tracks = stream.getTracks();
+                tracks.forEach(track => track.stop());
+                video.srcObject = null;
+                clearInterval(intervalId); // Stop the prediction interval
+                startButton.disabled = false;
+                stopButton.disabled = true;
+            }
+        }
+
+        function captureFrame() {
+            const canvas = document.createElement('canvas');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            const context = canvas.getContext('2d');
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            return canvas.toDataURL('image/jpeg');
+        }
+
+        async function predict() {
+            const image = captureFrame();
+            try {
+                const response = await fetch('http://127.0.0.1:5000/predict', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ image: image })
+                });
+
+                const data = await response.json();
+                console.log('Prediction:', data.prediction);
+                predictionSpan.textContent = data.prediction;
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        function speakPrediction() {
+            const prediction = predictionSpan.textContent;
+            if (prediction) {
+                const utterance = new SpeechSynthesisUtterance(prediction);
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        startButton.addEventListener('click', startVideo);
+        stopButton.addEventListener('click', stopVideo);
+        speakButton.addEventListener('click', speakPrediction);
+
+        document.getElementById('predict-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            let formData = new FormData(this);
+
+            fetch('/word', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.image_path) {
+                    document.getElementById('predicted-image').src = data.image_path;
+                } else if (data.image_error) {
+                    document.getElementById('predicted-image').src = '';
+                    alert(data.image_error);
+                }
+                
+                if (data.video_path) {
+                    document.getElementById('video-source').src = data.video_path;
+                    document.getElementById('predicted-video').load();
+                } else if (data.video_error) {
+                    document.getElementById('video-source').src = '';
+                    document.getElementById('predicted-video').load();
+                    alert(data.video_error);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+
+        function record() {
+            var recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+            recognition.lang = 'en-IN';
+
+            recognition.onresult = function(event) {
+                document.getElementById('speechToText').value = event.results[0][0].transcript;
+            }
+            recognition.start();
+        }
+
+        function play() {
+            var videoSource = [];
+            var videos = document.getElementById("list").getElementsByTagName("li");
+            for (var j = 0; j < videos.length; j++) {
+                videoSource[j] = "{{ url_for('static', filename='words/') }}" + videos[j].innerHTML + ".mp4";
+            }
+
+            var i = 0;
+            var videoCount = videoSource.length;
+
+            function videoPlay(videoNum) {
+                document.getElementById("list").getElementsByTagName("li")[videoNum].classList.add("active");
+                document.getElementById("videoPlayer").setAttribute("src", videoSource[videoNum]);
+                document.getElementById("videoPlayer").load();
+                document.getElementById("videoPlayer").play();
+            }
+
+            document.getElementById('videoPlayer').addEventListener('ended', myHandler, false);
+            document.getElementById("list").getElementsByTagName("li")[0].classList.add("active");
+
+            videoPlay(0);
+
+            function myHandler() {
+                document.getElementById("list").getElementsByTagName("li")[i].classList.remove("active");
+                i++;
+                if (i == videoCount) {
+                    document.getElementById("videoPlayer").pause();
+                } else {
+                    videoPlay(i);
+                }
+            }
+        }
+
+        function playPause() {
+            var videoPlayer = document.getElementById("videoPlayer");
+            if (videoPlayer.paused) {
+                document.getElementById("loadingSpinner").style.display = "block";
+                play();
+                document.getElementById("loadingSpinner").style.display = "none";
+            } else {
+                videoPlayer.pause();
+            }
+        }
+    </script>
+</body>
+</html>
