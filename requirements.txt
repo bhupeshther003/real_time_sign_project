@@ -5,4 +5,4 @@ opencv-python==4.10.0.84
 mediapipe==0.10.14
 tensorflow==2.17.0
 Pillow==10.4.0
-spacy==1.14.1
+spacy==3.7.6
